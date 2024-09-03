@@ -1,0 +1,17 @@
+service: demo-deno-astro
+image: gambala/demo-deno-astro
+servers:
+  - <%= ENV["MAIN_SERVER_IP"] %>
+labels:
+  traefik.http.routers.demo-deno-astro-web.rule: Host(`deno-astro.gambala.pro`)
+registry:
+  server: ghcr.io
+  username: gambala
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+healthcheck:
+  interval: 10s
+  path: /
+  port: 8085
+builder:
+  multiarch: false
