@@ -1,17 +1,20 @@
+<% require "dotenv"; Dotenv.load(".env") %>
+
 service: demo-deno-astro
 image: gambala/demo-deno-astro
 servers:
   - <%= ENV["MAIN_SERVER_IP"] %>
-labels:
-  traefik.http.routers.demo-deno-astro-web.rule: Host(`deno-astro.gambala.pro`)
+proxy:
+  ssl: false
+  host: deno-astro.gambala.pro
+  app_port: 8085
+  healthcheck:
+    interval: 10
+    path: /
 registry:
   server: ghcr.io
   username: gambala
   password:
     - KAMAL_REGISTRY_PASSWORD
-healthcheck:
-  interval: 10s
-  path: /
-  port: 8085
 builder:
-  multiarch: false
+  arch: arm64
